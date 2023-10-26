@@ -82,18 +82,16 @@ public class MockKafkaStreamRunner implements StreamRunner {
     }
 
     private void simulateTwitterStream(String[] keywords, int minTweetLength, int maxTweetLength, long sleepTimeMs) {
-        Executors.newSingleThreadExecutor().submit(() -> {
-            try {
-                while (true) {
-                    String formattedTweetAsRawJson = getFormattedTweet(keywords, minTweetLength, maxTweetLength);
-                    Status status = TwitterObjectFactory.createStatus(formattedTweetAsRawJson);
-                    twitterKafkaStatusListener.onStatus(status);
-                    sleep(sleepTimeMs);
-                }
-            } catch (TwitterException e) {
-                LOG.error("Error creating twitter status!", e);
+        try {
+            while (true) {
+                String formattedTweetAsRawJson = getFormattedTweet(keywords, minTweetLength, maxTweetLength);
+                Status status = TwitterObjectFactory.createStatus(formattedTweetAsRawJson);
+                twitterKafkaStatusListener.onStatus(status);
+                sleep(sleepTimeMs);
             }
-        });
+        } catch (TwitterException e) {
+            LOG.error("Error creating twitter status!", e);
+        }
     }
 
     private void sleep(long sleepTimeMs) {

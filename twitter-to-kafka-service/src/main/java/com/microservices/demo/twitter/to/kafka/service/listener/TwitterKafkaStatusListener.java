@@ -1,7 +1,7 @@
 package com.microservices.demo.twitter.to.kafka.service.listener;
 
 import com.microservices.demo.config.KafkaConfigData;
-import com.microservices.demo.kafka.avro.model.TwitterAvroModel;
+import com.microservices.demo.kafka.avro.model.TwitterKafkaModel;
 import com.microservices.demo.kafka.producer.config.service.KafkaProducer;
 import com.microservices.demo.twitter.to.kafka.service.transformer.TwitterStatusToAvroTransformer;
 import org.slf4j.Logger;
@@ -17,12 +17,12 @@ public class TwitterKafkaStatusListener extends StatusAdapter {
 
     private final KafkaConfigData kafkaConfigData;
 
-    private final KafkaProducer<Long, TwitterAvroModel> kafkaProducer;
+    private final KafkaProducer<Long, TwitterKafkaModel> kafkaProducer;
 
     private final TwitterStatusToAvroTransformer twitterStatusToAvroTransformer;
 
     public TwitterKafkaStatusListener(KafkaConfigData configData,
-                                      KafkaProducer<Long, TwitterAvroModel> producer,
+                                      KafkaProducer<Long, TwitterKafkaModel> producer,
                                       TwitterStatusToAvroTransformer transformer) {
         this.kafkaConfigData = configData;
         this.kafkaProducer = producer;
@@ -32,7 +32,7 @@ public class TwitterKafkaStatusListener extends StatusAdapter {
     @Override
     public void onStatus(Status status) {
         LOG.info("Received status text {} sending to kafka topic {}", status.getText(), kafkaConfigData.getTopicName());
-        TwitterAvroModel twitterAvroModel = twitterStatusToAvroTransformer.getTwitterAvroModelFromStatus(status);
-        kafkaProducer.send(kafkaConfigData.getTopicName(), twitterAvroModel.getUserId(), twitterAvroModel);
+        TwitterKafkaModel twitterKafkaModel = twitterStatusToAvroTransformer.getTwitterAvroModelFromStatus(status);
+        kafkaProducer.send(kafkaConfigData.getTopicName(), twitterKafkaModel.getUserId(), twitterKafkaModel);
     }
 }

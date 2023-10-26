@@ -17,3 +17,4 @@
 /kafka/kafka-model/kafka-model.iml
 /kafka/kafka-admin/kafka-admin.iml
 /.idea/
+/twitter-to-kafka-service/logs/

@@ -8,10 +8,13 @@ spring:
           uri: https://github.com/mayank1409/spring-cloud-config-server-repository
           default-label: main
           username: mayank1409
-          password: '{cipher}974947afb6a630e5916867ea01bf2f8821643af1d6516978246d55b719576a09b2f400f6d75231a7a06099f10452d5f44ac73128114fde33950dceea71f70dfe'
+          password: '{cipher}c9cc673e8ff0643c1e40ccc47f2a2787b45d409b3f994e21aab0827ca50b3c50e3e99a615ed4229be1a59273ab6632379d5ba0f6c437fde01ad543e93b11cba6'
           clone-on-start: true
     fail-fast: true
   security:
     user:
       name: spring_cloud_user
-      password: '{cipher}2a9a9bc07cc3d6fd828edfc0a6e9e539528018a87f54b6873a98923b8fb896f397c9968155911220032919fce0d5528b'
+      password: '{cipher}197ee377371c3c33ef3d4bfb1d1a93e1e48d032003e9c3a31e5d82874ca1680237a4e704bf76ad32a376ab93ffa3b232'
+
+encrypt:
+  key: 'DemoKey2023'

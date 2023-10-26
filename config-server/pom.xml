@@ -11,6 +11,11 @@
 
     <artifactId>config-server</artifactId>
 
+    <properties>
+        <docker.image.prefix>${project.groupId}</docker.image.prefix>
+        <docker.image.name>${project.artifactId}</docker.image.name>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.microservices.demo</groupId>
@@ -35,21 +40,28 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.40.3</version>
                 <configuration>
-                    <image>
-                        <name>${project.groupId}/config.server:${project.version}</name>
-                    </image>
+                    <images>
+                        <image>
+                            <name>${docker.image.prefix}/${docker.image.name}:${project.version}</name>
+                        </image>
+                    </images>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>default</id>
                         <phase>install</phase>
                         <goals>
-                            <goal>build-image</goal>
+                            <goal>build</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-
 </project>
