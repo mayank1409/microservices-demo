@@ -18,3 +18,4 @@
 /kafka/kafka-admin/kafka-admin.iml
 /.idea/
 /twitter-to-kafka-service/logs/
+/config-server/logs/

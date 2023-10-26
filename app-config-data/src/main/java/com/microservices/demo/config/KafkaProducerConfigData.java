@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 public class KafkaProducerConfigData {
     private String keySerializerClass;
     private String valueSerializerClass;
-    private String compressionType;
     private String acks;
     private Integer batchSize;
     private Integer batchSizeBoostFactor;
