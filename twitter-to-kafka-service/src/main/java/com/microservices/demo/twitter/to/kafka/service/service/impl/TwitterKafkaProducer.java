@@ -1,8 +1,8 @@
-package com.microservices.demo.kafka.producer.config.service.impl;
+package com.microservices.demo.twitter.to.kafka.service.service.impl;
 
-import com.microservices.demo.kafka.avro.model.TwitterKafkaModel;
-import com.microservices.demo.kafka.producer.config.KafkaTopicConfig;
-import com.microservices.demo.kafka.producer.config.service.KafkaProducer;
+import com.microservices.demo.twitter.to.kafka.service.config.KafkaTopicConfig;
+import com.microservices.demo.twitter.to.kafka.service.model.TwitterKafkaModel;
+import com.microservices.demo.twitter.to.kafka.service.service.KafkaProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;

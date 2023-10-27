@@ -1,9 +1,9 @@
 package com.microservices.demo.twitter.to.kafka.service.listener;
 
-import com.microservices.demo.config.KafkaConfigData;
-import com.microservices.demo.kafka.avro.model.TwitterKafkaModel;
-import com.microservices.demo.kafka.producer.config.service.KafkaProducer;
-import com.microservices.demo.twitter.to.kafka.service.transformer.TwitterStatusToAvroTransformer;
+import com.microservices.demo.twitter.to.kafka.service.config.KafkaConfigData;
+import com.microservices.demo.twitter.to.kafka.service.model.TwitterKafkaModel;
+import com.microservices.demo.twitter.to.kafka.service.service.KafkaProducer;
+import com.microservices.demo.twitter.to.kafka.service.transformer.TwitterStatusToKafkaTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -19,20 +19,20 @@ public class TwitterKafkaStatusListener extends StatusAdapter {
 
     private final KafkaProducer<Long, TwitterKafkaModel> kafkaProducer;
 
-    private final TwitterStatusToAvroTransformer twitterStatusToAvroTransformer;
+    private final TwitterStatusToKafkaTransformer twitterStatusToKafkaTransformer;
 
     public TwitterKafkaStatusListener(KafkaConfigData configData,
                                       KafkaProducer<Long, TwitterKafkaModel> producer,
-                                      TwitterStatusToAvroTransformer transformer) {
+                                      TwitterStatusToKafkaTransformer transformer) {
         this.kafkaConfigData = configData;
         this.kafkaProducer = producer;
-        this.twitterStatusToAvroTransformer = transformer;
+        this.twitterStatusToKafkaTransformer = transformer;
     }
 
     @Override
     public void onStatus(Status status) {
         LOG.info("Received status text {} sending to kafka topic {}", status.getText(), kafkaConfigData.getTopicName());
-        TwitterKafkaModel twitterKafkaModel = twitterStatusToAvroTransformer.getTwitterAvroModelFromStatus(status);
+        TwitterKafkaModel twitterKafkaModel = twitterStatusToKafkaTransformer.getTwitterKafkaModelFromStatus(status);
         kafkaProducer.send(kafkaConfigData.getTopicName(), twitterKafkaModel.getUserId(), twitterKafkaModel);
     }
 }

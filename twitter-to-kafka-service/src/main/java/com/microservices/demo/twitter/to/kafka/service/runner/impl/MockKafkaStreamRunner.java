@@ -1,6 +1,6 @@
 package com.microservices.demo.twitter.to.kafka.service.runner.impl;
 
-import com.microservices.demo.config.TwitterToKafkaServiceConfigData;
+import com.microservices.demo.twitter.to.kafka.service.config.TwitterToKafkaServiceConfigData;
 import com.microservices.demo.twitter.to.kafka.service.exception.TwitterToKafkaServiceException;
 import com.microservices.demo.twitter.to.kafka.service.listener.TwitterKafkaStatusListener;
 import com.microservices.demo.twitter.to.kafka.service.runner.StreamRunner;
@@ -82,16 +82,18 @@ public class MockKafkaStreamRunner implements StreamRunner {
     }
 
     private void simulateTwitterStream(String[] keywords, int minTweetLength, int maxTweetLength, long sleepTimeMs) {
-        try {
-            while (true) {
-                String formattedTweetAsRawJson = getFormattedTweet(keywords, minTweetLength, maxTweetLength);
-                Status status = TwitterObjectFactory.createStatus(formattedTweetAsRawJson);
-                twitterKafkaStatusListener.onStatus(status);
-                sleep(sleepTimeMs);
+        Executors.newSingleThreadExecutor().submit(() -> {
+            try {
+                while (true) {
+                    String formattedTweetAsRawJson = getFormattedTweet(keywords, minTweetLength, maxTweetLength);
+                    Status status = TwitterObjectFactory.createStatus(formattedTweetAsRawJson);
+                    twitterKafkaStatusListener.onStatus(status);
+                    sleep(sleepTimeMs);
+                }
+            } catch (TwitterException e) {
+                LOG.error("Error creating twitter status!", e);
             }
-        } catch (TwitterException e) {
-            LOG.error("Error creating twitter status!", e);
-        }
+        });
     }
 
     private void sleep(long sleepTimeMs) {

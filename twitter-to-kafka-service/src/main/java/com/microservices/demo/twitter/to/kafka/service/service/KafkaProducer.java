@@ -1,4 +1,4 @@
-package com.microservices.demo.kafka.producer.config.service;
+package com.microservices.demo.twitter.to.kafka.service.service;
 
 import java.io.Serializable;
 

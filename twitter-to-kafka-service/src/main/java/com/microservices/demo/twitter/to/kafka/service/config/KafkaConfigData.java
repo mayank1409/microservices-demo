@@ -1,4 +1,4 @@
-package com.microservices.demo.config;
+package com.microservices.demo.twitter.to.kafka.service.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,8 +11,6 @@ import java.util.List;
 @ConfigurationProperties(prefix = "kafka-config")
 public class KafkaConfigData {
     private String bootstrapServers;
-    private String schemaRegistryUrlKey;
-    private String schemaRegistryUrl;
     private String topicName;
     private List<String> topicNamesToCreate;
     private Integer numOfPartitions;

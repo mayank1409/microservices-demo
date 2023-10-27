@@ -1,13 +1,13 @@
 package com.microservices.demo.twitter.to.kafka.service.transformer;
 
-import com.microservices.demo.kafka.avro.model.TwitterKafkaModel;
+import com.microservices.demo.twitter.to.kafka.service.model.TwitterKafkaModel;
 import org.springframework.stereotype.Component;
 import twitter4j.Status;
 
 @Component
-public class TwitterStatusToAvroTransformer {
+public class TwitterStatusToKafkaTransformer {
 
-    public TwitterKafkaModel getTwitterAvroModelFromStatus(Status status) {
+    public TwitterKafkaModel getTwitterKafkaModelFromStatus(Status status) {
         return TwitterKafkaModel
                 .builder()
                 .id(status.getId())

@@ -31,6 +31,7 @@ public class TwitterToKafkaServiceApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         LOG.info("App starts...");
+        streamInitializer.init();
         streamRunner.start();
     }
 }

@@ -1,13 +1,12 @@
-package com.microservices.demo.kafka.producer.config;
+package com.microservices.demo.twitter.to.kafka.service.config;
 
-import com.microservices.demo.config.KafkaConfigData;
-import com.microservices.demo.config.KafkaProducerConfigData;
-import com.microservices.demo.kafka.avro.model.TwitterKafkaModel;
+import com.microservices.demo.twitter.to.kafka.service.model.TwitterKafkaModel;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -41,8 +40,6 @@ public class KafkaTopicConfig {
         configs.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getKeySerializerClass());
         configs.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaProducerConfigData.getValueSerializerClass());
         configs.put(ProducerConfig.ACKS_CONFIG, kafkaProducerConfigData.getAcks());
-        configs.put(ProducerConfig.BATCH_SIZE_CONFIG, kafkaProducerConfigData.getBatchSize()
-                * kafkaProducerConfigData.getBatchSizeBoostFactor());
         configs.put(ProducerConfig.LINGER_MS_CONFIG, kafkaProducerConfigData.getLingerMs());
         return new DefaultKafkaProducerFactory<>(configs);
     }
@@ -54,6 +51,10 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic topic() {
-        return new NewTopic(kafkaConfigData.getTopicName(), kafkaConfigData.getNumOfPartitions(), kafkaConfigData.getReplicationFactor());
+        return TopicBuilder.name(kafkaConfigData.getTopicName())
+                .partitions(kafkaConfigData.getNumOfPartitions())
+                .replicas(kafkaConfigData.getReplicationFactor())
+                .build();
     }
+
 }
